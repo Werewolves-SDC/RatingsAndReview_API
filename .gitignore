@@ -1,3 +1,4 @@
-node_modules
+node_modules/
 .env
-csv_files
+csv_files/
+.DS_Store
