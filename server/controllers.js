@@ -7,7 +7,6 @@ const getReviews = (req, res) => {
   let sort = req.query.sort || 'relevant';
   return models.getReviews(product_id, count, page, sort)
     .then((response) => {
-
       res.status(200).send({
         'product': product_id,
         'page': page,
@@ -16,7 +15,7 @@ const getReviews = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log('error getting reviews: ', err);
+      console.log('error getting reviews:', err);
       res.status(500).send(err);
     })
 }

@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS sdc;
 CREATE DATABASE sdc;
 
 CREATE TABLE IF NOT EXISTS reviews (
-  id SERIAL NOT NULL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   product_id INT,
   rating INT,
   date BIGINT,
@@ -17,29 +17,30 @@ CREATE TABLE IF NOT EXISTS reviews (
 );
 
 CREATE TABLE IF NOT EXISTS photos (
-  id SERIAL NOT NULL PRIMARY KEY,
-  review_id INT REFERENCES reviews(id),
+  id SERIAL PRIMARY KEY,
+  review_id INT REFERENCES reviews,
   url VARCHAR(250)
+
 );
 
 CREATE TABLE IF NOT EXISTS characteristics (
-  id SERIAL NOT NULL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   product_id INT,
   name VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS characteristic_reviews (
-  id SERIAL NOT NULL PRIMARY KEY,
-  characteristics_id INT REFERENCES characteristics(id),
-  review_id INT REFERENCES reviews(id),
+  id SERIAL PRIMARY KEY,
+  characteristics_id INT REFERENCES characteristics,
+  review_id INT,
   value INT
 );
 
 
-COPY reviews(id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness) FROM '../csv_files/reviews.csv' DELIMITER ',' CSV HEADER;
-COPY photos(id, review_id, url) FROM '../csv_files/reviews_photos.csv' DELIMITER ',' CSV HEADER;
-COPY characteristics(id, product_id, name) FROM '../csv_files/characteristics.csv' DELIMITER ',' CSV HEADER;
-COPY characteristic_reviews(id, characteristics_id, review_id, value) FROM '../csv_files/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
+\COPY reviews FROM '/Users/robertvincentgarcia/Desktop/RatingsAndReview_API/csv_files/reviews.csv' DELIMITER ',' CSV HEADER;
+\COPY photos FROM '/Users/robertvincentgarcia/Desktop/RatingsAndReview_API/csv_files/reviews_photos.csv' DELIMITER ',' CSV HEADER;
+\COPY characteristics FROM '/Users/robertvincentgarcia/Desktop/RatingsAndReview_API/csv_files/characteristics.csv' DELIMITER ',' CSV HEADER;
+\COPY characteristic_reviews FROM '/Users/robertvincentgarcia/Desktop/RatingsAndReview_API/csv_files/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
 
 /* change data in date column to match api */
 ALTER TABLE reviews ALTER COLUMN date TYPE timestamp USING (to_timestamp(date::decimal/1000) AT TIME ZONE 'UTC');

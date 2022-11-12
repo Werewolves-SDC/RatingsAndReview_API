@@ -3,7 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const router = require('./routes.js');
-const pool = require('../database');
+const pool = require('../database/postgreSQL/index.js');
 const port = process.env.PORT || 3000;
 
 const app = express();
