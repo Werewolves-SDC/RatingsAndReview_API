@@ -9,7 +9,7 @@ const getReviews = (product_id, count, page, sort) => {
   } else {
     sort = `reviews.date DESC, reviews.helpfulness DESC`;
   }
-  let queryString = `SELECT  reviews.id, reviews.rating, reviews.date, reviews.summary, reviews.body, reviews.recommend, reviews.reviewer_name, reviews.reviewer_email, reviews.response, reviews.helpfulness, json_agg( COALESCE (json_build_object('id', photos.id, 'url', photos.url), '[]')) AS photos
+  let queryString = `SELECT reviews.id, reviews.rating, reviews.date, reviews.summary, reviews.body, reviews.recommend, reviews.reviewer_name, reviews.reviewer_email, reviews.response, reviews.helpfulness, json_agg( COALESCE (json_build_object('id', photos.id, 'url', photos.url), '[]')) AS photos
   FROM reviews
   LEFT JOIN photos ON reviews.id = photos.review_id
   WHERE reviews.product_id = ${product_id}

@@ -1,16 +1,15 @@
-require('dotenv').config();
 const { Pool } = require('pg');
+require('dotenv').config();
 
-const p = new Pool({
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  port: process.env.PORT,
+const pool = new Pool({
+  user: process.env.POSTGRES_USER,
+  database: process.env.POSTGRES_DB,
+  password: process.env.POSTGRES_PASSWORD,
+  port: process.env.POSTGRES_PORT,
 });
 
 pool.connect()
-  .then(() => console.log('Connection to database has been made'))
+  .then((client) => console.log('Connection to database has been made'))
   .catch((err) => console.log(err));
 
 module.exports = pool;
